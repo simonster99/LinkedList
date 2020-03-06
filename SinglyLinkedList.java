@@ -18,13 +18,10 @@ class SinglyLinkedList<Item> {
         Node<Item> next = null;
         Item el = null;
 
-
         public Node(Item el, Node next) {
 
             this.next = next;
             this.el = el;
-
-
         }
     }
 
@@ -43,6 +40,8 @@ class SinglyLinkedList<Item> {
      * Constructor of an empty Singly linked list
      *
      */
+
+
     public void display() {
         //Node current will point to head
         Node<Item> current = head;
@@ -65,19 +64,15 @@ class SinglyLinkedList<Item> {
         size = 0;
     }
 
-
-
     public void addFirst(Item item){
-
         head = new Node<Item>(item, head);
-
     }
 
-    public Item get(int index) {
+    public Item get(int index) throws IllegalArgumentException {
 
         Node<Item> tmp = head;
 
-        for (int i = 0; i == index -1; i++){
+        for (int i = 0; i < index; i++); {
 
             tmp = tmp.next;
 
@@ -85,38 +80,79 @@ class SinglyLinkedList<Item> {
         return tmp.el;
     }
 
-
-
     /**
      * Method to insert element newElement at specified index in the list
      *
      * @param index where you want to insert new element
      * @param newElement the object of type Item you want to insert
      */
-    public void insertAt(int index, Item newElement) {
+    public void insertAt(int index, Item newElement) throws IllegalArgumentException {
 
         if (head == null) {
             addFirst(newElement);
         } else {
 
+            Node<Item> newNode = new Node<Item>(newElement, null);
+
             Node<Item> tmp = head;
 
-            for (int i = 0; i == index; i++) {
+            int size = 0;
 
+            while (tmp != null) {
+                size++;
                 tmp = tmp.next;
+            }
+
+            int count = size - (size - index);
+
+            if (count == 0) {
+
+                addFirst(newElement);
+
+            } else {
+
+                tmp = head;
+
+                while (count-- > 1) {
+                    tmp = tmp.next;
+                }
+
+                newNode.next = tmp.next;
+                tmp.next = newNode;
 
             }
-           tmp.next = new Node<Item>(newElement, null);
         }
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Method to remove the element at the specified index from the list
      *
-     * @param index the position to remove the item from
+
      */
-    public void removeAt(int index) {
-        // ToDo: if (...) throw new IllegalArgumentException("Index ouf of bounds");
+
+    public void removeAt(int index) throws IllegalArgumentException {
+
+            Node<Item> tmp = head;
+
+            Node<Item> tmp1 = null;
+
+        if (index == 0) {
+
+            Node<Item> temp = head;
+            head = head.next;
+
+        }else{
+
+            for (int i = 0; i < index; i++){
+
+                tmp1 = tmp;
+                tmp = tmp.next;
+            }
+
+            tmp1.next = tmp.next;
+
+        }
         throw new UnsupportedOperationException();
     }
 
@@ -124,19 +160,33 @@ class SinglyLinkedList<Item> {
      * Reverse the list
      *
      */
+
     public void reverse() {
-        throw new UnsupportedOperationException();
+        this.head=reverse(head);
+    }
+
+    private Node<Item> reverse(Node<Item> node) {
+        if(head==null || head.next == null)
+            return head;
+
+        Node<Item> theNext = head.next;
+        head.next = null;
+
+        Node<Item> other = reverse(theNext);
+        theNext.next = head;
+
+        return other;
     }
 
     public static void main(String[] args) {
         SinglyLinkedList<Integer> testList = new SinglyLinkedList<>();
-        testList.addFirst(1);
+        testList.addFirst(1);;
         testList.addFirst(2);
         testList.addFirst(3);
         testList.addFirst(4);
-        testList.insertAt(4, 10);
-        System.out.println(testList.get(1));
+        System.out.println(testList.get(0));
         testList.display();
+
 
     }
 }
